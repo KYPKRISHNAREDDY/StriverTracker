@@ -45,6 +45,7 @@ interface TopicDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTopics(topics: List<TopicEntity>)
 
+    @Transaction
     @Query("""
         SELECT t.*,
         COUNT(p.id) as totalProblems,
@@ -80,6 +81,7 @@ interface ProblemDao {
     @Query("SELECT COUNT(*) FROM problems WHERE sheetId = :sheetId")
     suspend fun getTotalProblemsCount(sheetId: String): Int
 
+    @Transaction
     @Query("""
         SELECT p.*, upp.status, upp.starred, upp.needsRevision
         FROM problems p

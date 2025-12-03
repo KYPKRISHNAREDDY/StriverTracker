@@ -4,13 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.dsatracker.ui.navigation.DSANavGraph
+import com.dsatracker.ui.navigation.Routes
 import com.dsatracker.ui.theme.DSATrackerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,76 +36,114 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DSATrackerApp() {
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("DSA Sheet Tracker") },
+                title = {
+                    Text(
+                        text = getScreenTitle(currentRoute),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+                ),
+                navigationIcon = {
+                    if (currentRoute != null && !Routes.isTopLevelDestination(currentRoute)) {
+                        IconButton(onClick = { navController.navigateUp() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back",
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                }
             )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Welcome to DSA Sheet Tracker",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "Track your progress through Striver's A2Z DSA Sheet",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "This is an unofficial planner/tracker app.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center
+        },
+        bottomBar = {
+            if (Routes.shouldShowBottomNav(currentRoute)) {
+                NavigationBar {
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                        label = { Text("Home") },
+                        selected = currentRoute == Routes.Home.route,
+                        onClick = {
+                            navController.navigate(Routes.Home.route) {
+                                popUpTo(Routes.Home.route) { inclusive = true }
+                            }
+                        }
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Not affiliated with Striver or takeUforward.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.List, contentDescription = "Problems") },
+                        label = { Text("Problems") },
+                        selected = currentRoute?.startsWith("sheet_overview") == true,
+                        onClick = {
+                            navController.navigate(Routes.SheetOverview.createRoute("STRIVER_A2Z")) {
+                                popUpTo(Routes.Home.route)
+                            }
+                        }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Refresh, contentDescription = "Revision") },
+                        label = { Text("Revision") },
+                        selected = currentRoute == Routes.Revision.route,
+                        onClick = {
+                            navController.navigate(Routes.Revision.route) {
+                                popUpTo(Routes.Home.route)
+                            }
+                        }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Analytics, contentDescription = "Stats") },
+                        label = { Text("Stats") },
+                        selected = currentRoute == Routes.Stats.route,
+                        onClick = {
+                            navController.navigate(Routes.Stats.route) {
+                                popUpTo(Routes.Home.route)
+                            }
+                        }
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
+                        label = { Text("Settings") },
+                        selected = currentRoute == Routes.Settings.route,
+                        onClick = {
+                            navController.navigate(Routes.Settings.route) {
+                                popUpTo(Routes.Home.route)
+                            }
+                        }
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Button(
-                onClick = { /* TODO: Navigate to main content */ },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Get Started")
-            }
         }
+    ) { paddingValues ->
+        DSANavGraph(
+            navController = navController,
+            startDestination = Routes.Home.route,
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
+}
+
+private fun getScreenTitle(route: String?): String {
+    return when {
+        route == null -> "DSA Tracker"
+        route == Routes.Home.route -> "Home"
+        route.startsWith("sheet_overview") -> "Problems"
+        route.startsWith("topic_problems") -> "Topic"
+        route.startsWith("problem_detail") -> "Problem"
+        route == Routes.Revision.route -> "Revision"
+        route == Routes.Notes.route -> "Notes"
+        route == Routes.Calendar.route -> "Calendar"
+        route == Routes.Stats.route -> "Statistics"
+        route == Routes.Settings.route -> "Settings"
+        route == Routes.About.route -> "About"
+        else -> "DSA Tracker"
     }
 }

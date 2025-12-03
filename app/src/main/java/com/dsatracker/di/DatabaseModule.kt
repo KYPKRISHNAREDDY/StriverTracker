@@ -3,6 +3,8 @@ package com.dsatracker.di
 import android.content.Context
 import com.dsatracker.data.local.dao.*
 import com.dsatracker.data.local.database.DSADatabase
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,4 +55,10 @@ object DatabaseModule {
 
     @Provides
     fun provideXpEventDao(database: DSADatabase): XpEventDao = database.xpEventDao()
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder()
+        .setLenient()
+        .create()
 }

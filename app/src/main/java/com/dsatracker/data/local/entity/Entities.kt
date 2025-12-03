@@ -28,7 +28,15 @@ data class SheetEntity(
 
 @Entity(
     tableName = "topics",
-    indices = [Index(value = ["sheetId"])]
+    indices = [Index(value = ["sheetId"])],
+    foreignKeys = [
+        ForeignKey(
+            entity = SheetEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["sheetId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class TopicEntity(
     @PrimaryKey(autoGenerate = true)
@@ -45,6 +53,20 @@ data class TopicEntity(
     indices = [
         Index(value = ["sheetId"]),
         Index(value = ["topicId"])
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = SheetEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["sheetId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = TopicEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["topicId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class ProblemEntity(
@@ -68,6 +90,20 @@ data class ProblemEntity(
         Index(value = ["userId"]),
         Index(value = ["problemId"]),
         Index(value = ["userId", "problemId"], unique = true)
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ProblemEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["problemId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class UserProblemProgressEntity(
@@ -92,6 +128,20 @@ data class UserProblemProgressEntity(
         Index(value = ["userId"]),
         Index(value = ["problemId"]),
         Index(value = ["userId", "problemId"], unique = true)
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ProblemEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["problemId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class UserProblemNoteEntity(
@@ -109,6 +159,20 @@ data class UserProblemNoteEntity(
         Index(value = ["userId"]),
         Index(value = ["problemId"]),
         Index(value = ["userId", "problemId", "isActive"])
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ProblemEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["problemId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class RevisionCardEntity(
@@ -130,6 +194,14 @@ data class RevisionCardEntity(
     indices = [
         Index(value = ["userId"]),
         Index(value = ["userId", "dateLocalEpochDay"], unique = true)
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]
 )
 data class DailyStatsEntity(
@@ -146,7 +218,15 @@ data class DailyStatsEntity(
 
 @Entity(
     tableName = "goals",
-    indices = [Index(value = ["userId"])]
+    indices = [Index(value = ["userId"])],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class GoalEntity(
     @PrimaryKey(autoGenerate = true)
@@ -166,7 +246,15 @@ data class GoalEntity(
 
 @Entity(
     tableName = "xp_events",
-    indices = [Index(value = ["userId"])]
+    indices = [Index(value = ["userId"])],
+    foreignKeys = [
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["userId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class XpEventEntity(
     @PrimaryKey(autoGenerate = true)
