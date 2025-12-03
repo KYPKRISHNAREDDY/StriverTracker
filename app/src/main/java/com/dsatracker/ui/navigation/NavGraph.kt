@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.dsatracker.ui.screens.*
 
 /**
  * Main navigation graph for the app
@@ -23,31 +24,9 @@ fun DSANavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        // Splash & Onboarding
-        composable(Routes.Splash.route) {
-            // SplashScreen(navController = navController)
-            PlaceholderScreen(title = "Splash Screen")
-        }
-
-        composable(Routes.Onboarding.route) {
-            // OnboardingScreen(navController = navController)
-            PlaceholderScreen(title = "Onboarding Screen")
-        }
-
-        composable(Routes.Auth.route) {
-            // AuthScreen(navController = navController)
-            PlaceholderScreen(title = "Auth Screen")
-        }
-
-        composable(Routes.SetupGoal.route) {
-            // SetupGoalScreen(navController = navController)
-            PlaceholderScreen(title = "Setup Goal Screen")
-        }
-
         // Home Screen
         composable(Routes.Home.route) {
-            // HomeScreen(navController = navController)
-            PlaceholderScreen(title = "Home Screen")
+            HomeScreen(navController = navController)
         }
 
         // Sheet Overview with sheetId parameter
@@ -58,11 +37,10 @@ fun DSANavGraph(
             )
         ) { backStackEntry ->
             val sheetId = backStackEntry.arguments?.getString("sheetId") ?: ""
-            // SheetOverviewScreen(
-            //     sheetId = sheetId,
-            //     navController = navController
-            // )
-            PlaceholderScreen(title = "Sheet Overview: $sheetId")
+            SheetOverviewScreen(
+                sheetId = sheetId,
+                navController = navController
+            )
         }
 
         // Topic Problems with topicId parameter
@@ -73,11 +51,10 @@ fun DSANavGraph(
             )
         ) { backStackEntry ->
             val topicId = backStackEntry.arguments?.getLong("topicId") ?: 0L
-            // TopicProblemsScreen(
-            //     topicId = topicId,
-            //     navController = navController
-            // )
-            PlaceholderScreen(title = "Topic Problems: $topicId")
+            TopicProblemsScreen(
+                topicId = topicId,
+                navController = navController
+            )
         }
 
         // Problem Detail with problemId parameter
@@ -88,64 +65,27 @@ fun DSANavGraph(
             )
         ) { backStackEntry ->
             val problemId = backStackEntry.arguments?.getLong("problemId") ?: 0L
-            // ProblemDetailScreen(
-            //     problemId = problemId,
-            //     navController = navController
-            // )
-            PlaceholderScreen(title = "Problem Detail: $problemId")
+            ProblemDetailScreen(problemId = problemId)
         }
 
         // Revision Screen
         composable(Routes.Revision.route) {
-            // RevisionScreen(navController = navController)
-            PlaceholderScreen(title = "Revision Screen")
-        }
-
-        // Notes Screen
-        composable(Routes.Notes.route) {
-            // NotesScreen(navController = navController)
-            PlaceholderScreen(title = "Notes Screen")
-        }
-
-        // Calendar Screen
-        composable(Routes.Calendar.route) {
-            // CalendarScreen(navController = navController)
-            PlaceholderScreen(title = "Calendar Screen")
+            RevisionScreen(navController = navController)
         }
 
         // Stats Screen
         composable(Routes.Stats.route) {
-            // StatsScreen(navController = navController)
-            PlaceholderScreen(title = "Stats Screen")
+            StatsScreen()
         }
 
         // Settings Screen
         composable(Routes.Settings.route) {
-            // SettingsScreen(navController = navController)
-            PlaceholderScreen(title = "Settings Screen")
+            SettingsScreen(navController = navController)
         }
 
         // About Screen
         composable(Routes.About.route) {
-            // AboutScreen(navController = navController)
-            PlaceholderScreen(title = "About Screen")
+            AboutScreen()
         }
-    }
-}
-
-/**
- * Placeholder screen for development
- * Replace with actual screens as they are implemented
- */
-@Composable
-private fun PlaceholderScreen(title: String) {
-    androidx.compose.foundation.layout.Box(
-        modifier = androidx.compose.ui.Modifier.fillMaxSize(),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        androidx.compose.material3.Text(
-            text = title,
-            style = androidx.compose.material3.MaterialTheme.typography.headlineMedium
-        )
     }
 }

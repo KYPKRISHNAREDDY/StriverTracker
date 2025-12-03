@@ -1,9 +1,14 @@
 package com.dsatracker.ui.viewmodel
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dsatracker.data.preferences.PreferencesManager
+import com.dsatracker.domain.usecase.ExportNotesUseCase
+import com.dsatracker.utils.NotificationScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,11 +19,16 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val preferencesManager: PreferencesManager
+    @ApplicationContext private val context: Context,
+    private val preferencesManager: PreferencesManager,
+    private val exportNotesUseCase: ExportNotesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+
+    private val _exportIntent = MutableSharedFlow<Intent>()
+    val exportIntent: SharedFlow<Intent> = _exportIntent.asSharedFlow()
 
     init {
         loadSettings()
@@ -48,18 +58,50 @@ class SettingsViewModel @Inject constructor(
     fun toggleDailyReminder(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.setDailyReminderEnabled(enabled)
+            rescheduleNotifications()
         }
     }
 
     fun setDailyReminderHour(hour: Int) {
         viewModelScope.launch {
             preferencesManager.setDailyReminderHour(hour.toLong())
+            rescheduleNotifications()
         }
     }
 
     fun toggleWeeklySummary(enabled: Boolean) {
         viewModelScope.launch {
             preferencesManager.setWeeklySummaryEnabled(enabled)
+            rescheduleNotifications()
+        }
+    }
+
+    private suspend fun rescheduleNotifications() {
+        val isDailyEnabled = preferencesManager.isDailyReminderEnabled.first()
+        val dailyHour = preferencesManager.getDailyReminderHour().toInt()
+        val isWeeklyEnabled = preferencesManager.isWeeklySummaryEnabled.first()
+        NotificationScheduler.rescheduleAll(context, isDailyEnabled, dailyHour, isWeeklyEnabled)
+    }
+
+    fun exportNotes() {
+        viewModelScope.launch {
+            try {
+                val result = exportNotesUseCase()
+                if (result.isSuccess) {
+                    _exportIntent.emit(result.getOrThrow())
+                    _uiState.update {
+                        it.copy(message = "Notes exported successfully")
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(error = result.exceptionOrNull()?.message ?: "Failed to export notes")
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(error = "Failed to export notes: ${e.message}")
+                }
+            }
         }
     }
 
