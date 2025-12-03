@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DSA Sheet Tracker</string>
+
+    <!-- General -->
+    <string name="app_description">Track your progress through Striver A2Z DSA Sheet</string>
+    <string name="disclaimer">This is an unofficial planner/tracker app. Not affiliated with Striver or takeUforward.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_sheet">Sheet</string>
+    <string name="nav_revision">Revision</string>
+    <string name="nav_stats">Stats</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Today</string>
+    <string name="home_streak">Current Streak: %1$d days</string>
+    <string name="home_problems_solved">Problems Solved: %1$d</string>
+    <string name="home_revisions_due">Revisions Due: %1$d</string>
+
+    <!-- Problem Status -->
+    <string name="status_not_started">Not Started</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_solved">Solved</string>
+    <string name="status_skipped">Skipped</string>
+
+    <!-- Difficulty -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+
+    <!-- Platform -->
+    <string name="platform_leetcode">LeetCode</string>
+    <string name="platform_gfg">GeeksforGeeks</string>
+    <string name="platform_tuf">TakeUforward</string>
+
+    <!-- Notifications -->
+    <string name="notification_daily_reminder_title">Daily DSA Practice</string>
+    <string name="notification_daily_reminder_content">Time for your DSA practice! %1$d problems + %2$d revisions due.</string>
+    <string name="notification_channel_daily_reminder">Daily Reminders</string>
+    <string name="notification_channel_weekly_summary">Weekly Summary</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_daily_reminder">Daily Reminder</string>
+    <string name="settings_weekly_summary">Weekly Summary</string>
+    <string name="settings_reminder_time">Reminder Time</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_export_notes">Export Notes</string>
+    <string name="settings_clear_data">Clear All Data</string>
+    <string name="settings_about">About</string>
+
+    <!-- Actions -->
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_open_link">Open in Browser</string>
+    <string name="action_mark_solved">Mark as Solved</string>
+    <string name="action_add_note">Add Note</string>
+    <string name="action_start_revision">Start Revision</string>
+
+    <!-- Messages -->
+    <string name="msg_saved">Saved successfully</string>
+    <string name="msg_error">An error occurred</string>
+    <string name="msg_no_problems">No problems found</string>
+    <string name="msg_no_revisions">No revisions due today</string>
+</resources>

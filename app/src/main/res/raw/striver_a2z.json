@@ -1,0 +1,73 @@
+{
+  "sheet": {
+    "id": "STRIVER_A2Z",
+    "name": "Striver A2Z DSA Sheet",
+    "description": "Complete DSA preparation from Basics to Advanced",
+    "totalQuestions": 456
+  },
+  "topics": [
+    {
+      "id": 1,
+      "sheetId": "STRIVER_A2Z",
+      "name": "Basics",
+      "orderIndex": 0,
+      "categories": [
+        {
+          "id": 1,
+          "topicId": 1,
+          "name": "Things to know in C++/Java/Python or any language",
+          "orderIndex": 0
+        },
+        {
+          "id": 2,
+          "topicId": 1,
+          "name": "Build Up Logical Thinking",
+          "orderIndex": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sheetId": "STRIVER_A2Z",
+      "name": "Sorting Techniques",
+      "orderIndex": 1,
+      "categories": []
+    },
+    {
+      "id": 3,
+      "sheetId": "STRIVER_A2Z",
+      "name": "Arrays",
+      "orderIndex": 2,
+      "categories": []
+    }
+  ],
+  "problems": [
+    {
+      "id": 1,
+      "sheetId": "STRIVER_A2Z",
+      "topicId": 1,
+      "title": "User Input/Output",
+      "platform": "TUF",
+      "url": "https://takeuforward.org",
+      "difficulty": "EASY",
+      "orderIndex": 0,
+      "tags": "basics,io"
+    },
+    {
+      "id": 2,
+      "sheetId": "STRIVER_A2Z",
+      "topicId": 1,
+      "title": "Data Types",
+      "platform": "TUF",
+      "url": "https://takeuforward.org",
+      "difficulty": "EASY",
+      "orderIndex": 1,
+      "tags": "basics,datatype"
+    }
+  ],
+  "motivationalQuotes": [
+    {"quote": "Life isn't about getting and having, it's about giving and being.", "author": "Kevin Kruse"},
+    {"quote": "Whatever the mind of man can conceive and believe, it can achieve.", "author": "Napoleon Hill"},
+    {"quote": "Strive not to be a success, but rather to be of value.", "author": "Albert Einstein"}
+  ]
+}
