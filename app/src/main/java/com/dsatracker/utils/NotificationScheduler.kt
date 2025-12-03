@@ -67,15 +67,22 @@ object NotificationScheduler {
         // Calculate delay to next Sunday at 8 PM
         val currentTime = Calendar.getInstance()
         val targetTime = Calendar.getInstance().apply {
-            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
             set(Calendar.HOUR_OF_DAY, 20) // 8 PM
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
-        }
+            set(Calendar.MILLISECOND, 0)
 
-        // If target time has passed this week, schedule for next week
-        if (targetTime.before(currentTime)) {
-            targetTime.add(Calendar.WEEK_OF_YEAR, 1)
+            // Set to next Sunday
+            val currentDayOfWeek = get(Calendar.DAY_OF_WEEK)
+            val daysUntilSunday = (Calendar.SUNDAY - currentDayOfWeek + 7) % 7
+
+            if (daysUntilSunday == 0 && before(currentTime)) {
+                // Today is Sunday but time has passed, schedule for next Sunday
+                add(Calendar.DAY_OF_YEAR, 7)
+            } else if (daysUntilSunday > 0) {
+                // Schedule for upcoming Sunday
+                add(Calendar.DAY_OF_YEAR, daysUntilSunday)
+            }
         }
 
         val initialDelay = targetTime.timeInMillis - currentTime.timeInMillis

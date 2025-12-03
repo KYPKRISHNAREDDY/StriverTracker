@@ -35,9 +35,9 @@ class DailyReminderWorker @AssistedInject constructor(
             val userId = preferencesManager.getCurrentUserId()
                 ?: return Result.success() // No user, skip
 
-            // Get pending problems count (this is a simplified approach)
+            // Get pending problems count
             val solvedCount = repository.getSolvedCountFlow(userId).first()
-            val totalProblems = 456 // Total problems in sheet
+            val totalProblems = repository.getTotalProblemsCount("STRIVER_A2Z")
             val pendingProblems = totalProblems - solvedCount
 
             // Get due revisions count

@@ -38,10 +38,10 @@ class ExportNotesUseCase @Inject constructor(
 
             // Build notes text
             val notesText = buildString {
-                appendLine("=" .repeat(50))
+                appendLine("=".repeat(50))
                 appendLine("DSA Tracker - My Problem Notes")
                 appendLine("Exported on: ${getCurrentTimestamp()}")
-                appendLine("=" .repeat(50))
+                appendLine("=".repeat(50))
                 appendLine()
 
                 notes.forEach { note ->
@@ -57,16 +57,16 @@ class ExportNotesUseCase @Inject constructor(
                         appendLine("Notes:")
                         appendLine(note.content)
                         appendLine()
-                        appendLine("-" .repeat(50))
+                        appendLine("-".repeat(50))
                         appendLine()
                     }
                 }
 
                 appendLine()
-                appendLine("=" .repeat(50))
+                appendLine("=".repeat(50))
                 appendLine("End of Notes")
                 appendLine("Total: ${notes.size} problem(s)")
-                appendLine("=" .repeat(50))
+                appendLine("=".repeat(50))
             }
 
             // Create temporary file

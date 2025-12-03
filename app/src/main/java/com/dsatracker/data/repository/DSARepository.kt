@@ -55,6 +55,9 @@ class DSARepository @Inject constructor(
 
     suspend fun insertProblems(problems: List<ProblemEntity>) = problemDao.insertProblems(problems)
 
+    suspend fun getTotalProblemsCount(sheetId: String): Int =
+        problemDao.getTotalProblemsCount(sheetId)
+
     // Progress operations
     suspend fun getProgress(userId: Long, problemId: Long): UserProblemProgressEntity? =
         userProblemProgressDao.getProgress(userId, problemId)

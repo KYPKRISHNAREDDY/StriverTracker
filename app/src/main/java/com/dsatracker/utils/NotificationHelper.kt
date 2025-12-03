@@ -76,7 +76,7 @@ object NotificationHelper {
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // You may need to create a proper icon
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("Daily DSA Practice")
             .setContentText(contentText)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -112,7 +112,7 @@ object NotificationHelper {
         val contentText = "Solved $problemsSolved problems, $revisionsDone revisions. $currentStreak day streak!"
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("Weekly Summary")
             .setContentText(contentText)
             .setStyle(
