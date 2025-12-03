@@ -35,6 +35,8 @@ class DSARepository @Inject constructor(
     fun getAllSheets(): Flow<List<SheetEntity>> = sheetDao.getAllSheetsFlow()
 
     // Topic operations
+    suspend fun getTopic(topicId: Long): TopicEntity? = topicDao.getTopic(topicId)
+
     fun getTopicsBySheet(sheetId: String): Flow<List<TopicEntity>> =
         topicDao.getTopicsBySheet(sheetId)
 
