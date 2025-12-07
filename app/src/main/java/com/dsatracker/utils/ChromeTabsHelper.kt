@@ -73,8 +73,10 @@ object ChromeTabsHelper {
      */
     fun isCustomTabsAvailable(context: Context): Boolean {
         return try {
-            val packageName = CustomTabsIntent.getPackageName(context, null)
-            packageName != null
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("http://www.example.com"))
+            val packageManager = context.packageManager
+            val resolveInfo = packageManager.resolveActivity(intent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+            resolveInfo != null
         } catch (e: Exception) {
             false
         }

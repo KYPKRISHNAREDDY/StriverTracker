@@ -303,7 +303,7 @@ private fun ConsistencySection(uiState: com.dsatracker.ui.viewmodel.StatsUiState
                 }
 
                 LinearProgressIndicator(
-                    progress = { uiState.consistencyPercentage / 100f },
+                    progress = uiState.consistencyPercentage / 100f,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(8.dp)

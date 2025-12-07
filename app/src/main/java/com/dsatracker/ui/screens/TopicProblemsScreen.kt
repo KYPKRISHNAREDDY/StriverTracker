@@ -183,7 +183,7 @@ private fun TopicHeader(uiState: com.dsatracker.ui.viewmodel.TopicUiState) {
             Spacer(modifier = Modifier.height(8.dp))
 
             LinearProgressIndicator(
-                progress = { uiState.progressPercentage / 100f },
+                progress = uiState.progressPercentage / 100f,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(6.dp)
@@ -192,6 +192,7 @@ private fun TopicHeader(uiState: com.dsatracker.ui.viewmodel.TopicUiState) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FiltersSection(
     filterState: com.dsatracker.ui.viewmodel.FilterState,

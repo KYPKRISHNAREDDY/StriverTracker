@@ -145,7 +145,7 @@ private fun SheetHeader(uiState: com.dsatracker.ui.viewmodel.SheetUiState) {
             Spacer(modifier = Modifier.height(12.dp))
 
             LinearProgressIndicator(
-                progress = { uiState.overallProgress },
+                progress = uiState.overallProgress,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp),
@@ -221,12 +221,12 @@ private fun TopicCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            val topicProgress = if (topic.totalProblems > 0)
+                topic.solvedProblems.toFloat() / topic.totalProblems.toFloat()
+            else 0f
+
             LinearProgressIndicator(
-                progress = {
-                    if (topic.totalProblems > 0)
-                        topic.solvedProblems.toFloat() / topic.totalProblems.toFloat()
-                    else 0f
-                },
+                progress = topicProgress,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(6.dp),

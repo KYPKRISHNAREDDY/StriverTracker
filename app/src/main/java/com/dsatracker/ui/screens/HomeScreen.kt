@@ -240,7 +240,7 @@ private fun GoalProgressSection(uiState: com.dsatracker.ui.viewmodel.HomeUiState
                 Spacer(modifier = Modifier.height(12.dp))
 
                 LinearProgressIndicator(
-                    progress = { uiState.goalProgress },
+                    progress = uiState.goalProgress,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(8.dp),
@@ -269,6 +269,7 @@ private fun GoalProgressSection(uiState: com.dsatracker.ui.viewmodel.HomeUiState
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun QuickActionsSection(
     onNavigateToProblems: () -> Unit,

@@ -225,6 +225,7 @@ private fun ProblemHeader(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatusSection(
     currentStatus: ProblemStatus,
